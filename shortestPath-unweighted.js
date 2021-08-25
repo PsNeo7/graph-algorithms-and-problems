@@ -1,6 +1,26 @@
-//shortest path in an unweighted graph
+// Shortest path between 2 nodes of an undirected graph
 
+const shortestPath = (edges, src, dst) => {
+    const graph = bulildAdjList(edges)
+    // console.log(graph);
+    const queue = [[src, 0]]
+    const seen = new Set([src])
 
+    while (queue.length > 0) {
+        const [node, distance] = queue.shift()
+        // console.log("increasing distance!", node, dst, distance);
+        if (node === dst) return distance
+
+        for (const neighbour of graph[node]) {
+            if (!seen.has(neighbour)) {
+                seen.add(neighbour)
+                queue.push([neighbour, distance + 1])
+            }
+        }
+    }
+
+    return -1
+}
 
 const bulildAdjList = (edges) => {
     graph = {}
@@ -25,9 +45,9 @@ const edges = [
     ['w', 'v']
 ];
 
-console.log(shortestPath(edges, 'w', 'z') === 2 ? "Pass" : "fail");
+console.log(shortestPath(edges, 'w', 'z') === 2 ? "Pass" : `fail, got ${shortestPath(edges, 'w', 'z')}`);
 
-console.log(shortestPath(edges, 'y', 'x') === 1 ? "Pass" : "fail");
+console.log(shortestPath(edges, 'y', 'x') === 1 ? "Pass" : `fail, got ${shortestPath(edges, 'y', 'x')}`);
 
 const edges2 = [
     ['a', 'c'],
@@ -43,7 +63,7 @@ console.log(shortestPath(edges2, 'a', 'e') === 3 ? "Pass" : "fail");
 
 console.log(shortestPath(edges2, 'e', 'c') === 2 ? "Pass" : "fail");
 
-console.log(shortestPath(edges2, 'b', 'g') === 1 ? "Pass" : "fail");
+console.log(shortestPath(edges2, 'b', 'g') === -1 ? "Pass" : "fail");
 
 const edges3 = [
     ['c', 'n'],
